@@ -1,39 +1,43 @@
 """
-Shared Gemini AI client.
-All agents import from here so the model is initialized once.
+backend/utils/gemini_client.py
+──────────────────────────────
+Thin compatibility shim used by all AI agents.
+
+All calls are forwarded to GeminiKeyManager which handles:
+  • Multi-key rotation
+  • Automatic failover
+  • Thread safety
+  • Logging (without exposing key values)
+
+Agents should import and call:
+    from utils.gemini_client import ask_gemini
 """
-import os
-import google.generativeai as genai
-from dotenv import load_dotenv
 
-load_dotenv()
-
-_api_key = os.getenv("GEMINI_API_KEY", "")
-
-if _api_key and _api_key != "your_gemini_api_key_here":
-    genai.configure(api_key=_api_key)
-    _model = genai.GenerativeModel("gemini-1.5-flash")
-    AI_ENABLED = True
-else:
-    _model = None
-    AI_ENABLED = False
-    print("⚠️  GEMINI_API_KEY not set. AI agents will return placeholder responses.")
+from services.api_key_manager import GeminiKeyManager
 
 
 def ask_gemini(prompt: str, system: str = "") -> str:
     """
-    Send a prompt to Gemini and return the text response.
-    Falls back to a helpful message if no API key is configured.
+    Send a prompt (with optional system instruction) to Gemini and
+    return the response text.
+
+    Automatically handles key rotation and failover via GeminiKeyManager.
+
+    Args:
+        prompt: The user/task prompt.
+        system: Optional system instruction prepended to the prompt.
+
+    Returns:
+        The model's text response, or a graceful error message.
     """
-    if not AI_ENABLED or _model is None:
-        return (
-            "🔑 AI features are not active. "
-            "Please add your GEMINI_API_KEY to backend/.env and restart the server.\n"
-            "Get a free key at: https://aistudio.google.com/app/apikey"
-        )
+    full_prompt = f"{system.strip()}\n\n{prompt.strip()}" if system else prompt.strip()
+
     try:
-        full_prompt = f"{system}\n\n{prompt}" if system else prompt
-        response = _model.generate_content(full_prompt)
-        return response.text
-    except Exception as e:
-        return f"⚠️ Gemini error: {str(e)}"
+        return GeminiKeyManager.generate(full_prompt)
+    except Exception as exc:
+        # Return a friendly message rather than crashing the API endpoint
+        return f"⚠️ AI is temporarily unavailable: {type(exc).__name__}. Please try again shortly."
+
+
+# Expose manager state for health checks / startup validation
+AI_ENABLED: bool = GeminiKeyManager.is_ready

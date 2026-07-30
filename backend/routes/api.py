@@ -6,6 +6,7 @@ from typing import List, Optional, Any
 from ocr.id_reader import extract_id_details
 from agents.identity_agent import identity_agent
 from services.curriculum_service import load_curriculum
+from services.api_key_manager import GeminiKeyManager
 from scheduler import generate_timetables
 
 # ── AI Agents ─────────────────────────────────────────────────────────────────
@@ -18,6 +19,30 @@ router = APIRouter()
 
 # ── In-memory session store (per-server, good enough for hackathon) ────────────
 _session: dict = {}
+
+
+# ═══════════════════════════════════════════════════════════
+# HEALTH CHECK
+# ═══════════════════════════════════════════════════════════
+
+@router.get("/health")
+async def health_check():
+    """
+    Returns backend status and the number of active Gemini keys.
+    Never exposes key values.
+    """
+    return {
+        "status": "ok",
+        "ai_enabled": GeminiKeyManager.is_ready,
+        "active_keys_count": len(GeminiKeyManager._keys),
+        "active_key_index": GeminiKeyManager._current_index + 1 if GeminiKeyManager.is_ready else None,
+        "message": (
+            f"✅ {len(GeminiKeyManager._keys)} Gemini key(s) loaded."
+            if GeminiKeyManager.is_ready
+            else "⚠️ No Gemini keys configured. Add keys to backend/.env"
+        )
+    }
+
 
 
 # ═══════════════════════════════════════════════════════════
