@@ -1,0 +1,46 @@
+{
+  "branch_code": "BAI",
+  "branch_name": "B.Tech CSE (AI & ML)",
+  "total_credits": 169,
+  "categories": [
+    {
+      "name": "Programme Core",
+      "courses": [
+        { "code": "CSE1010", "name": "Programming in Java", "credits": 5, "type": "Theory + Practical" },
+        { "code": "CSE2006", "name": "Data Structures & Algorithms", "credits": 5, "type": "Theory + Practical" },
+        { "code": "CSE2004", "name": "Operating Systems", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE3015", "name": "Database Management Systems", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE3003", "name": "Computer Networks", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE4001", "name": "Machine Learning", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE4002", "name": "Deep Learning", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE4003", "name": "Natural Language Processing", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE4004", "name": "Computer Vision", "credits": 4, "type": "Theory + Practical" }
+      ]
+    },
+    {
+      "name": "Programme Electives",
+      "courses": [
+        { "code": "CSE4020", "name": "AWS Cloud Practitioner", "credits": 3, "type": "Theory" },
+        { "code": "CSE4021", "name": "Reinforcement Learning", "credits": 3, "type": "Theory" },
+        { "code": "CSE4022", "name": "AI Ethics & Governance", "credits": 3, "type": "Theory" },
+        { "code": "CSE4023", "name": "Big Data Analytics", "credits": 3, "type": "Theory + Practical" }
+      ]
+    },
+    {
+      "name": "University Core",
+      "courses": [
+        { "code": "MAT2001", "name": "Probability & Statistics", "credits": 4, "type": "Theory" },
+        { "code": "MAT2002", "name": "Discrete Mathematics", "credits": 4, "type": "Theory" },
+        { "code": "PHY1001", "name": "Engineering Physics", "credits": 4, "type": "Theory + Practical" },
+        { "code": "ENG1001", "name": "Technical English", "credits": 2, "type": "Theory" }
+      ]
+    },
+    {
+      "name": "Open Electives",
+      "courses": [
+        { "code": "OE001", "name": "Lateral Thinking", "credits": 1, "type": "Theory" },
+        { "code": "OE002", "name": "Design Thinking", "credits": 2, "type": "Theory" }
+      ]
+    }
+  ]
+}

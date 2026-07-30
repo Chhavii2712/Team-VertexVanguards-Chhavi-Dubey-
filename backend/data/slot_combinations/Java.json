@@ -1,0 +1,19 @@
+{
+  "course": "CSE2006",
+  "name": "Programming in Java",
+  "credits": 3,
+  "slotOptions": [
+    {
+      "name": "Option 1",
+      "slots": ["D11", "D12", "E11"]
+    },
+    {
+      "name": "Option 2",
+      "slots": ["F11", "F12", "C11"]
+    },
+    {
+      "name": "Other",
+      "custom": true
+    }
+  ]
+}
