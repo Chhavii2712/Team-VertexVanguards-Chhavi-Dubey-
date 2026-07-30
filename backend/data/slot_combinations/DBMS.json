@@ -1,0 +1,23 @@
+{
+  "course": "CSE3015",
+  "name": "Database Management Systems",
+  "credits": 4,
+  "slotOptions": [
+    {
+      "name": "Option 1",
+      "slots": ["B11", "B12", "B13"]
+    },
+    {
+      "name": "Option 2",
+      "slots": ["A11", "A12", "A13"]
+    },
+    {
+      "name": "Option 3",
+      "slots": ["C11", "C12", "C13"]
+    },
+    {
+      "name": "Other",
+      "custom": true
+    }
+  ]
+}
