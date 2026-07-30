@@ -1,0 +1,430 @@
+{
+    "branch_code": "BAI",
+    "branch_name": "B.Tech CSE (AI & ML)",
+    "curriculum": [
+        {
+            "course_code": "CSA2003",
+            "course_name": "Digital Logic and Computer Architecture"
+        },
+        {
+            "course_code": "CSA3006",
+            "course_name": "DATA MINING AND DATA WAREHOUSING"
+        },
+        {
+            "course_code": "CSA3007",
+            "course_name": "DEEP LEARNING"
+        },
+        {
+            "course_code": "CSA4002",
+            "course_name": "Artificial Neural Networks"
+        },
+        {
+            "course_code": "CSA4008",
+            "course_name": "APPLIED MACHINE LEARNING"
+        },
+        {
+            "course_code": "CSA4028",
+            "course_name": "NATURAL LANGUAGE PROCESSING"
+        },
+        {
+            "course_code": "CSA4029",
+            "course_name": "REINFORCEMENT AND REPRESENTATION"
+        },
+        {
+            "course_code": "CSD3009",
+            "course_name": "DATA STRUCTURES AND ANALYSIS OF"
+        },
+        {
+            "course_code": "CSE2001",
+            "course_name": "Object Oriented Programming with C++"
+        },
+        {
+            "course_code": "CSE2004",
+            "course_name": "Theory Of Computation And Compiler Design"
+        },
+        {
+            "course_code": "CSE3001",
+            "course_name": "Database Management Systems"
+        },
+        {
+            "course_code": "CSE3003",
+            "course_name": "Operating System"
+        },
+        {
+            "course_code": "CSE3006",
+            "course_name": "Computer Networks"
+        },
+        {
+            "course_code": "CSE3011",
+            "course_name": "Python Programming"
+        },
+        {
+            "course_code": "CSA3001",
+            "course_name": "Agent Based Intelligent Systems"
+        },
+        {
+            "course_code": "CSA3004",
+            "course_name": "Data Visualization"
+        },
+        {
+            "course_code": "CSA3010",
+            "course_name": "AI in Industry 4.0"
+        },
+        {
+            "course_code": "CSA3011",
+            "course_name": "Bayesian Data Analysis"
+        },
+        {
+            "course_code": "CSA3012",
+            "course_name": "Immersive Multimedia"
+        },
+        {
+            "course_code": "CSA3013",
+            "course_name": "Surveillance video analytics and Image Processing"
+        },
+        {
+            "course_code": "CSA3015",
+            "course_name": "R Programming"
+        },
+        {
+            "course_code": "CSA3017",
+            "course_name": "Knowledge Engineering"
+        },
+        {
+            "course_code": "CSA3018",
+            "course_name": "Computer Vision for Autonomous Vehicles"
+        },
+        {
+            "course_code": "CSA3019",
+            "course_name": "Pervasive AI for IoT Applications"
+        },
+        {
+            "course_code": "CSA3020",
+            "course_name": "Generative AI"
+        },
+        {
+            "course_code": "CSA3021",
+            "course_name": "Drone Technology"
+        },
+        {
+            "course_code": "CSA4005",
+            "course_name": "Expert Systems and Fuzzy Logic"
+        },
+        {
+            "course_code": "CSA4007",
+            "course_name": "COGNITIVE ANALYTICS"
+        },
+        {
+            "course_code": "CSA4010",
+            "course_name": "Data Analytics Using Scala Programming"
+        },
+        {
+            "course_code": "CSA4011",
+            "course_name": "Information Retrieval and Web Search"
+        },
+        {
+            "course_code": "CSA4012",
+            "course_name": "Introduction to Brain and Neuro Science"
+        },
+        {
+            "course_code": "CSA4015",
+            "course_name": "COMPUTATIONAL INTELLIGENCE"
+        },
+        {
+            "course_code": "CSA4016",
+            "course_name": "HARDWARE ARCHITECTURE FOR MACHINE"
+        },
+        {
+            "course_code": "CSA4019",
+            "course_name": "Machine Learning with Big Data"
+        },
+        {
+            "course_code": "CSA4021",
+            "course_name": "Graph Analytics for Big Data"
+        },
+        {
+            "course_code": "CSA4022",
+            "course_name": "Parallel and Distributed Systems"
+        },
+        {
+            "course_code": "CSA4023",
+            "course_name": "Speech System"
+        },
+        {
+            "course_code": "CSA4024",
+            "course_name": "Theoretical and Computational Neuroscience"
+        },
+        {
+            "course_code": "CSA4030",
+            "course_name": "PREDICTIVE AND TIME SERIES ANALYSIS"
+        },
+        {
+            "course_code": "CSE3010",
+            "course_name": "Computer Vision"
+        },
+        {
+            "course_code": "CSE3015",
+            "course_name": "AWS Cloud Practitioner"
+        },
+        {
+            "course_code": "CSE3016",
+            "course_name": "AWS Solution Architect"
+        },
+        {
+            "course_code": "CSE3017",
+            "course_name": "Salesforce"
+        },
+        {
+            "course_code": "ONS3022",
+            "course_name": "Internet of Things and its Applications"
+        },
+        {
+            "course_code": "CHY1005",
+            "course_name": "Introduction to Computational chemistry"
+        },
+        {
+            "course_code": "MAT1003",
+            "course_name": "Calculus"
+        },
+        {
+            "course_code": "MAT2002",
+            "course_name": "Discrete Mathematics and Graph Theory"
+        },
+        {
+            "course_code": "MAT3002",
+            "course_name": "Applied Linear Algebra"
+        },
+        {
+            "course_code": "MAT3003",
+            "course_name": "Probability, Statistics And Reliability"
+        },
+        {
+            "course_code": "PHY1003",
+            "course_name": "Introduction to Computational Physics"
+        },
+        {
+            "course_code": "CSA2001",
+            "course_name": "Fundamentals in AI & ML"
+        },
+        {
+            "course_code": "EEE1001",
+            "course_name": "Electric Circuits and Systems"
+        },
+        {
+            "course_code": "MEE2014",
+            "course_name": "Engineering Design and Modelling"
+        },
+        {
+            "course_code": "CSE1021",
+            "course_name": "Introduction to Problem Solving and Programming"
+        },
+        {
+            "course_code": "CSE2006",
+            "course_name": "Programming in Java"
+        },
+        {
+            "course_code": "PLA1004",
+            "course_name": "Competitive Coding Practices"
+        },
+        {
+            "course_code": "PLA1006",
+            "course_name": "Lateral Thinking"
+        },
+        {
+            "course_code": "SST1003",
+            "course_name": "Professional Communication Skills for Engineers"
+        },
+        {
+            "course_code": "SST2003",
+            "course_name": "Dynamics of workplace communication Skills"
+        },
+        {
+            "course_code": "CHY1006",
+            "course_name": "Environmental Sustainability"
+        },
+        {
+            "course_code": "ENG1004",
+            "course_name": "EFFECTIVE TECHNICAL COMMUNICATION"
+        },
+        {
+            "course_code": "ENG2005",
+            "course_name": "Advanced Technical Communication"
+        },
+        {
+            "course_code": "DSN2092",
+            "course_name": "SUMMER INDUSTRIAL INTERNSHIP"
+        },
+        {
+            "course_code": "DSN2093",
+            "course_name": "SEMESTER INTERNSHIP"
+        },
+        {
+            "course_code": "DSN2098",
+            "course_name": "Project Exhibition - I"
+        },
+        {
+            "course_code": "DSN2099",
+            "course_name": "Project Exhibition - II"
+        },
+        {
+            "course_code": "DSN3099",
+            "course_name": "Engineering Project in Community Service"
+        },
+        {
+            "course_code": "DSN4091",
+            "course_name": "Capstone Project - Phase 1"
+        },
+        {
+            "course_code": "DSN4092",
+            "course_name": "Capstone Project - Phase 2"
+        },
+        {
+            "course_code": "MAT2003",
+            "course_name": "Applied Numerical Method"
+        },
+        {
+            "course_code": "MAT2004",
+            "course_name": "Operations Research"
+        },
+        {
+            "course_code": "MAT2005",
+            "course_name": "Transform Techniques and Difference Equations"
+        },
+        {
+            "course_code": "MAT3004",
+            "course_name": "Random Process"
+        },
+        {
+            "course_code": "MAT3008",
+            "course_name": "Computational Game Theory"
+        },
+        {
+            "course_code": "MAT3016",
+            "course_name": "Stochastic Process"
+        },
+        {
+            "course_code": "MAT3017",
+            "course_name": "Statistical Inferences and Series of Functions"
+        },
+        {
+            "course_code": "BIO1501",
+            "course_name": "Bio Inspired Design"
+        },
+        {
+            "course_code": "CDS3005",
+            "course_name": "Foundations of Data Science"
+        },
+        {
+            "course_code": "CSD3010",
+            "course_name": "Cyber Physical Systems"
+        },
+        {
+            "course_code": "CSE2003",
+            "course_name": "Computer Architecture and Organization"
+        },
+        {
+            "course_code": "EAC4012",
+            "course_name": "Body Area Networks"
+        },
+        {
+            "course_code": "ECE4006",
+            "course_name": "Sensors And Iot"
+        },
+        {
+            "course_code": "ENG3001",
+            "course_name": "Introduction to Computational Linguistics"
+        },
+        {
+            "course_code": "MEA3015",
+            "course_name": "UNMANNED AERIAL VEHICLES"
+        },
+        {
+            "course_code": "BMT1013",
+            "course_name": "Human Resource Management"
+        },
+        {
+            "course_code": "BMT2017",
+            "course_name": "International Business"
+        },
+        {
+            "course_code": "HUM1002",
+            "course_name": "Emotional Intelligence"
+        },
+        {
+            "course_code": "HUM2001",
+            "course_name": "Behavioural Science"
+        },
+        {
+            "course_code": "MGT1002",
+            "course_name": "PRINCIPLES OF MANAGEMENT AND"
+        },
+        {
+            "course_code": "MGT2003",
+            "course_name": "Technology Entrepreneurship"
+        },
+        {
+            "course_code": "CSD4002",
+            "course_name": "Ethical Hacking"
+        },
+        {
+            "course_code": "CSE3007",
+            "course_name": "Artificial Intelligence"
+        },
+        {
+            "course_code": "HUM2003",
+            "course_name": "Foundations of Privacy and Security"
+        },
+        {
+            "course_code": "ONL1010",
+            "course_name": "Applied Machine Learning in Python"
+        },
+        {
+            "course_code": "ONL1021",
+            "course_name": "HTML, CSS and JavaScript for Web Developers"
+        },
+        {
+            "course_code": "ONL1032",
+            "course_name": "IBM AI Engineering Professional Certificate"
+        },
+        {
+            "course_code": "ONS3005",
+            "course_name": "Cloud Computing"
+        },
+        {
+            "course_code": "PHY1001",
+            "course_name": "ENGINEERING PHYSICS"
+        },
+        {
+            "course_code": "CSE0001",
+            "course_name": "Digital Literacy"
+        },
+        {
+            "course_code": "CSE0002",
+            "course_name": "OPEN SOURCE SOFTWARE (LINUX"
+        },
+        {
+            "course_code": "EXC0001",
+            "course_name": "EXTRA CURRICULAR ACTIVITIES"
+        },
+        {
+            "course_code": "HUM0002",
+            "course_name": "Swachh Bharat"
+        },
+        {
+            "course_code": "HUM0003",
+            "course_name": "INDIAN CONSTITUTION"
+        },
+        {
+            "course_code": "HUM0004",
+            "course_name": "INDIAN  HERITAGE"
+        },
+        {
+            "course_code": "UHV0001",
+            "course_name": "Universal Human Values - I"
+        },
+        {
+            "course_code": "UHV0002",
+            "course_name": "Universal Human Values - II"
+        }
+    ]
+}
