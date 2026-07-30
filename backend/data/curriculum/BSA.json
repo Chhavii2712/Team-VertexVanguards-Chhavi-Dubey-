@@ -1,6 +1,6 @@
 {
-  "branch_code": "BAI",
-  "branch_name": "B.Tech CSE (AI & ML)",
+  "branch_code": "BSA",
+  "branch_name": "B.Tech CSE (Cloud Computing)",
   "total_credits": 169,
   "categories": [
     {
@@ -11,19 +11,16 @@
         { "code": "CSE2004", "name": "Operating Systems", "credits": 4, "type": "Theory + Practical" },
         { "code": "CSE3015", "name": "Database Management Systems", "credits": 4, "type": "Theory + Practical" },
         { "code": "CSE3003", "name": "Computer Networks", "credits": 4, "type": "Theory + Practical" },
-        { "code": "CSE4001", "name": "Machine Learning", "credits": 4, "type": "Theory + Practical" },
-        { "code": "CSE4002", "name": "Deep Learning", "credits": 4, "type": "Theory + Practical" },
-        { "code": "CSE4003", "name": "Natural Language Processing", "credits": 4, "type": "Theory + Practical" },
-        { "code": "CSE4004", "name": "Computer Vision", "credits": 4, "type": "Theory + Practical" }
+        { "code": "CSE3020", "name": "Cloud Computing Architecture", "credits": 4, "type": "Theory + Practical" },
+        { "code": "CSE3021", "name": "Virtualization Technologies", "credits": 4, "type": "Theory + Practical" }
       ]
     },
     {
       "name": "Programme Electives",
       "courses": [
         { "code": "CSE4020", "name": "AWS Cloud Practitioner", "credits": 3, "type": "Theory" },
-        { "code": "CSE4021", "name": "Reinforcement Learning", "credits": 3, "type": "Theory" },
-        { "code": "CSE4022", "name": "AI Ethics & Governance", "credits": 3, "type": "Theory" },
-        { "code": "CSE4023", "name": "Big Data Analytics", "credits": 3, "type": "Theory + Practical" }
+        { "code": "CSE4024", "name": "DevOps & Microservices", "credits": 3, "type": "Theory + Practical" },
+        { "code": "CSE4025", "name": "Cloud Security & Compliance", "credits": 3, "type": "Theory" }
       ]
     },
     {

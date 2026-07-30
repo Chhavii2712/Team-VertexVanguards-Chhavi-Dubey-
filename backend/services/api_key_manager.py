@@ -23,13 +23,17 @@ import threading
 from typing import Optional
 
 import google.generativeai as genai
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logger = logging.getLogger("studyloop.api_key_manager")
 
 # ─── Load environment variables ───────────────────────────────────────────────
-load_dotenv()
+env_path_backend = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.env'))
+env_path_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
+load_dotenv(dotenv_path=env_path_backend, override=True)
+load_dotenv(dotenv_path=env_path_root, override=True)
+load_dotenv(override=True)
 
 # ─── Exceptions ───────────────────────────────────────────────────────────────
 
@@ -89,25 +93,36 @@ class _GeminiKeyManager:
     def initialize(self) -> None:
         """
         Load all configured Gemini keys from .env and create one SDK client
-        per key.  Called once at application startup (via app lifespan or
-        module import).
-
-        Raises:
-            NoAPIKeysConfigured: if no valid keys are found.
+        per key. Called once at application startup or on demand.
         """
+        env_path_backend = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.env'))
+        from dotenv import dotenv_values
+        file_env = dotenv_values(env_path_backend)
+        load_dotenv(dotenv_path=env_path_backend, override=True)
+        load_dotenv(override=True)
+
         raw_keys = []
         for i in range(1, 5):          # Keys 1 – 4
-            val = os.getenv(f"GEMINI_API_KEY_{i}", "").strip()
-            # Accept non-empty values that are not placeholder text
+            key_name = f"GEMINI_API_KEY_{i}"
+            val = (os.getenv(key_name) or file_env.get(key_name) or "").strip()
             if val and "your_key" not in val.lower():
                 raw_keys.append(val)
+
+        # Fallback to single GEMINI_API_KEY if no numbered keys found
+        if not raw_keys:
+            single_key = (os.getenv("GEMINI_API_KEY") or file_env.get("GEMINI_API_KEY") or "").strip()
+            if single_key and "your_key" not in single_key.lower():
+                raw_keys.append(single_key)
 
         if not raw_keys:
             logger.warning(
                 "⚠️  No Gemini API keys found. "
                 "Add GEMINI_API_KEY_1 … _4 to backend/.env"
             )
-            self._initialized = False
+            with self._lock:
+                self._keys = []
+                self._clients = []
+                self._initialized = False
             return
 
         # Build one SDK client per key

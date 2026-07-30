@@ -12,7 +12,11 @@ from scheduler import generate_timetables
 # ── AI Agents ─────────────────────────────────────────────────────────────────
 from agents.planner_agent import generate_daily_plan
 from agents.deadline_agent import analyze_deadlines
-from agents.study_agent import answer_question, process_uploaded_notes, generate_quiz
+from agents.study_agent import (
+    answer_question, process_uploaded_notes, generate_quiz,
+    generate_smart_summary, extract_important_topics, generate_flashcards,
+    generate_resource_recommendations
+)
 from agents.chat_agent import chat as chat_agent
 
 router = APIRouter()
@@ -31,6 +35,7 @@ async def health_check():
     Returns backend status and the number of active Gemini keys.
     Never exposes key values.
     """
+    GeminiKeyManager.initialize()
     return {
         "status": "ok",
         "ai_enabled": GeminiKeyManager.is_ready,
@@ -78,6 +83,16 @@ class PlannerRequest(BaseModel):
 class StudyRequest(BaseModel):
     query: str
     mode: str = "general"  # "general" | "notes"
+    level: str = "standard"  # "standard" | "beginner" | "exam"
+
+class SummarizeRequest(BaseModel):
+    style: str = "bullet"  # "short" | "detailed" | "bullet" | "revision"
+
+class TopicRequest(BaseModel):
+    topic: Optional[str] = None
+
+class FlashcardRequest(BaseModel):
+    count: int = 6
 
 class ChatRequest(BaseModel):
     message: str
@@ -94,12 +109,16 @@ class QuizRequest(BaseModel):
 @router.post("/scan-id")
 async def scan_id(file: UploadFile = File(...)):
     """Upload an ID card image → returns structured student profile."""
-    image_bytes = await file.read()
-    raw_data = extract_id_details(image_bytes)
-    student_profile = identity_agent.process_ocr_data(raw_data)
-    # Store in session
-    _session["student"] = student_profile
-    return student_profile
+    try:
+        image_bytes = await file.read()
+        raw_data = extract_id_details(image_bytes)
+        student_profile = identity_agent.process_ocr_data(raw_data)
+        # Store in session
+        _session["student"] = student_profile
+        return student_profile
+    except Exception as e:
+        # Instead of 500 Internal Server Error, return JSON so the frontend can display the message
+        return {"error": f"Failed to scan ID: {str(e)}"}
 
 
 # ═══════════════════════════════════════════════════════════
@@ -210,23 +229,45 @@ async def replan():
 
 @router.post("/upload-notes")
 async def upload_notes(file: UploadFile = File(...)):
-    """Upload lecture notes (PDF/TXT). Agent summarizes and indexes them."""
+    """Upload lecture notes (PDF/PPT/DOCX/TXT). Agent summarizes and indexes them."""
     file_bytes = await file.read()
     result = process_uploaded_notes(file_bytes, file.filename)
     if result["status"] == "success":
         _session["notes_text"] = result["notes_text"]
-    return {"message": "Notes processed.", "summary": result["summary"], "extracted_chars": result.get("extracted_chars", 0)}
+        _session["notes_filename"] = file.filename
+    return {"message": "Notes processed.", "summary": result["summary"], "extracted_chars": result.get("extracted_chars", 0), "filename": file.filename}
 
 @router.post("/study-assistant")
 async def study_assistant(request: StudyRequest):
-    """Answer an academic question (general or based on uploaded notes)."""
+    """Answer an academic question (general or based on uploaded notes) with simplicity level & branch personalization."""
     notes_text = _session.get("notes_text", "") if request.mode == "notes" else ""
+    student_branch = _session.get("student", {}).get("branch_code", "")
     response = answer_question(
         query=request.query,
         mode=request.mode,
         notes_text=notes_text,
+        level=request.level,
+        student_branch=student_branch,
     )
     return {"response": response}
+
+@router.post("/study-summarize")
+async def study_summarize(request: SummarizeRequest):
+    """Generate smart summary (short, detailed, bullet, or revision cheat-sheet)."""
+    notes_text = _session.get("notes_text", "")
+    if not notes_text:
+        raise HTTPException(status_code=400, detail="No notes uploaded yet. Please upload notes first.")
+    summary = generate_smart_summary(notes_text, request.style)
+    return {"summary": summary, "style": request.style}
+
+@router.post("/study-topics")
+async def study_topics():
+    """Extract top 5-10 exam topics (CAT / FAT preparation)."""
+    notes_text = _session.get("notes_text", "")
+    if not notes_text:
+        raise HTTPException(status_code=400, detail="No notes uploaded yet. Please upload notes first.")
+    topics = extract_important_topics(notes_text)
+    return {"topics": topics}
 
 @router.post("/generate-quiz")
 async def generate_quiz_endpoint(request: QuizRequest):
@@ -236,6 +277,34 @@ async def generate_quiz_endpoint(request: QuizRequest):
         raise HTTPException(status_code=400, detail="No notes uploaded yet. Please upload notes first.")
     quiz = generate_quiz(notes_text, request.num_questions)
     return {"quiz": quiz}
+
+@router.post("/generate-flashcards")
+async def generate_flashcards_endpoint(request: FlashcardRequest):
+    """Generate interactive revision flashcards."""
+    notes_text = _session.get("notes_text", "")
+    if not notes_text:
+        raise HTTPException(status_code=400, detail="No notes uploaded yet. Please upload notes first.")
+    flashcards = generate_flashcards(notes_text, request.count)
+    return {"flashcards": flashcards}
+
+@router.post("/recommendations")
+async def recommendations_endpoint(request: TopicRequest):
+    """Generate YouTube, documentation, and practice recommendations for a topic."""
+    topic = request.topic or _session.get("notes_filename", "Current Subject")
+    recommendations = generate_resource_recommendations(topic)
+    return {"recommendations": recommendations, "topic": topic}
+
+@router.get("/study-context")
+async def study_context():
+    """Get active session context for Study Agent (uploaded note details, branch, deadlines, active plan)."""
+    return {
+        "has_notes": bool(_session.get("notes_text")),
+        "filename": _session.get("notes_filename", None),
+        "student": _session.get("student", {}),
+        "deadlines": _session.get("deadlines", []),
+        "daily_plan": _session.get("daily_plan", [])
+    }
+
 
 
 # ═══════════════════════════════════════════════════════════

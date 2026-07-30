@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Sidebar from '../components/Sidebar'
 
-const API = 'http://localhost:8000'
+const API = 'http://127.0.0.1:8000'
 
 export default function Deadlines() {
   const [deadlines, setDeadlines] = useState([

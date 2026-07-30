@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const API = 'http://localhost:8000'
+const API = 'http://127.0.0.1:8000'
 
 const CATEGORY_COLORS = {
   'Programme Core': 'badge-blue',

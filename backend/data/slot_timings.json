@@ -1,22 +1,39 @@
 {
-    "A11": {"day": "Monday", "time": "08:30-10:00"},
-    "B11": {"day": "Monday", "time": "10:05-11:35"},
-    "C11": {"day": "Monday", "time": "11:40-13:10"},
-    "A21": {"day": "Monday", "time": "13:15-14:45"},
-    
-    "D11": {"day": "Tuesday", "time": "08:30-10:00"},
-    "E11": {"day": "Tuesday", "time": "10:05-11:35"},
-    "F11": {"day": "Tuesday", "time": "11:40-13:10"},
-    
-    "A12": {"day": "Wednesday", "time": "08:30-10:00"},
-    "B12": {"day": "Wednesday", "time": "10:05-11:35"},
-    "C12": {"day": "Wednesday", "time": "11:40-13:10"},
-    
-    "D12": {"day": "Thursday", "time": "08:30-10:00"},
-    "E12": {"day": "Thursday", "time": "10:05-11:35"},
-    "F12": {"day": "Thursday", "time": "11:40-13:10"},
-    
-    "A13": {"day": "Friday", "time": "08:30-10:00"},
-    "B13": {"day": "Friday", "time": "10:05-11:35"},
-    "C13": {"day": "Friday", "time": "11:40-13:10"}
+    "A11": {"day": "Monday", "time": "08:00-08:50"},
+    "B11": {"day": "Monday", "time": "09:00-09:50"},
+    "C11": {"day": "Monday", "time": "10:00-10:50"},
+    "A21": {"day": "Monday", "time": "14:00-14:50"},
+    "B21": {"day": "Monday", "time": "15:00-15:50"},
+    "C21": {"day": "Monday", "time": "16:00-16:50"},
+
+    "D11": {"day": "Tuesday", "time": "08:00-08:50"},
+    "E11": {"day": "Tuesday", "time": "09:00-09:50"},
+    "F11": {"day": "Tuesday", "time": "10:00-10:50"},
+    "D21": {"day": "Tuesday", "time": "14:00-14:50"},
+    "E21": {"day": "Tuesday", "time": "15:00-15:50"},
+    "F21": {"day": "Tuesday", "time": "16:00-16:50"},
+
+    "A12": {"day": "Wednesday", "time": "08:00-08:50"},
+    "B12": {"day": "Wednesday", "time": "09:00-09:50"},
+    "C12": {"day": "Wednesday", "time": "10:00-10:50"},
+    "A22": {"day": "Wednesday", "time": "14:00-14:50"},
+    "B22": {"day": "Wednesday", "time": "15:00-15:50"},
+
+    "D12": {"day": "Thursday", "time": "08:00-08:50"},
+    "E12": {"day": "Thursday", "time": "09:00-09:50"},
+    "F12": {"day": "Thursday", "time": "10:00-10:50"},
+    "D22": {"day": "Thursday", "time": "14:00-14:50"},
+    "E22": {"day": "Thursday", "time": "15:00-15:50"},
+    "F22": {"day": "Thursday", "time": "16:00-16:50"},
+
+    "A13": {"day": "Friday", "time": "08:00-08:50"},
+    "B13": {"day": "Friday", "time": "09:00-09:50"},
+    "C13": {"day": "Friday", "time": "10:00-10:50"},
+    "A14": {"day": "Friday", "time": "11:00-11:50"},
+    "B14": {"day": "Friday", "time": "12:00-12:50"},
+    "C14": {"day": "Friday", "time": "14:00-14:50"},
+    "B24": {"day": "Friday", "time": "15:00-15:50"},
+    "E14": {"day": "Friday", "time": "16:00-16:50"},
+    "F14": {"day": "Friday", "time": "17:00-17:50"},
+    "A23": {"day": "Friday", "time": "14:00-14:50"}
 }

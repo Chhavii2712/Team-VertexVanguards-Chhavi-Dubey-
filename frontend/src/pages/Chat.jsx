@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Sidebar from '../components/Sidebar'
 
-const API = 'http://localhost:8000'
+const API = 'http://127.0.0.1:8000'
 
 const INITIAL_MESSAGES = [
   { role: 'assistant', text: "Hi! I'm your StudyLoop AI assistant 👋 I can help you plan your day, answer study questions, track deadlines, or explain any topic. What would you like to do?" }

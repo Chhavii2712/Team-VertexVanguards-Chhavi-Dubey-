@@ -1,26 +1,44 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const API = 'http://localhost:8000'
+const API = 'http://127.0.0.1:8000'
 
-// Sample slot options — these would normally also come from the backend
-const SLOT_OPTIONS_MOCK = {
-  'CSE3015': [
-    { name: 'Option 1', slots: ['B11', 'B12', 'B13'] },
-    { name: 'Option 2', slots: ['A11', 'A12', 'A13'] },
-    { name: 'Option 3', slots: ['C11', 'C12', 'C13'] },
+// ── Common VIT FFCS slot combinations organized by credit type ──
+const SLOT_OPTIONS_BY_CREDITS = {
+  4: [
+    { name: 'A11+A12+A13 (Morning Mon/Wed/Fri)', slots: ['A11', 'A12', 'A13'] },
+    { name: 'B11+B12+B13 (Morning Mon/Wed/Fri)', slots: ['B11', 'B12', 'B13'] },
+    { name: 'C11+C12+C13 (Morning Mon/Wed/Fri)', slots: ['C11', 'C12', 'C13'] },
+    { name: 'A21+A22+A23 (Afternoon Mon/Wed/Fri)', slots: ['A21', 'A22', 'A23'] },
+    { name: 'B21+B22+B23 (Afternoon Mon/Wed/Fri)', slots: ['B21', 'B22', 'B23'] },
+    { name: 'A14+B14+C14 (Friday Block)', slots: ['A14', 'B14', 'C14'] },
     { name: 'Other (Custom)', slots: [], custom: true },
   ],
-  'CSE1010': [
-    { name: 'Option 1', slots: ['D11', 'D12', 'E11'] },
-    { name: 'Option 2', slots: ['F11', 'F12', 'C11'] },
+  3: [
+    { name: 'D11+D12 (Tue/Thu Morning)', slots: ['D11', 'D12'] },
+    { name: 'E11+E12 (Tue/Thu Morning)', slots: ['E11', 'E12'] },
+    { name: 'F11+F12 (Tue/Thu Morning)', slots: ['F11', 'F12'] },
+    { name: 'E14+F14 (Fri Afternoon)', slots: ['E14', 'F14'] },
+    { name: 'E21+E22 (Tue/Thu Afternoon)', slots: ['E21', 'E22'] },
+    { name: 'F21+F22 (Tue/Thu Afternoon)', slots: ['F21', 'F22'] },
     { name: 'Other (Custom)', slots: [], custom: true },
   ],
-  'default': [
-    { name: 'Option 1', slots: ['A11', 'A12', 'A13'] },
-    { name: 'Option 2', slots: ['B11', 'B12', 'B13'] },
+  2: [
+    { name: 'C21 (Mon Afternoon)', slots: ['C21'] },
+    { name: 'A13 (Fri Morning)', slots: ['A13'] },
+    { name: 'B24 (Fri Afternoon)', slots: ['B24'] },
+    { name: 'F11 (Tue Morning)', slots: ['F11'] },
+    { name: 'A11 (Mon Morning)', slots: ['A11'] },
+    { name: 'D11 (Tue Morning)', slots: ['D11'] },
+    { name: 'E14 (Fri Afternoon)', slots: ['E14'] },
     { name: 'Other (Custom)', slots: [], custom: true },
-  ]
+  ],
+}
+
+function getSlotOptions(credits) {
+  // Return slot options based on credit count; fallback to 4-credit options
+  const c = parseInt(credits, 10)
+  return SLOT_OPTIONS_BY_CREDITS[c] || SLOT_OPTIONS_BY_CREDITS[4]
 }
 
 export default function SlotSelection() {
@@ -91,7 +109,7 @@ export default function SlotSelection() {
         )}
 
         {courses.map(course => {
-          const options = SLOT_OPTIONS_MOCK[course.code] || SLOT_OPTIONS_MOCK['default']
+          const options = getSlotOptions(course.credits)
           const selected = selections[course.code]
           return (
             <div key={course.code} className="card" style={{ marginBottom: '1.25rem' }}>

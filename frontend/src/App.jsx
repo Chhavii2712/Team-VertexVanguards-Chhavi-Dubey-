@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { StudyProvider } from './context/StudyContext'
 import Landing from './pages/Landing'
 import UploadID from './pages/UploadID'
 import CourseSelection from './pages/CourseSelection'
@@ -14,21 +15,23 @@ import './index.css'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/upload-id" element={<UploadID />} />
-        <Route path="/course-selection" element={<CourseSelection />} />
-        <Route path="/slot-selection" element={<SlotSelection />} />
-        <Route path="/timetable" element={<Timetable />} />
-        <Route path="/lifestyle" element={<LifestyleSetup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/planner" element={<DailyPlanner />} />
-        <Route path="/deadlines" element={<Deadlines />} />
-        <Route path="/study" element={<StudyAssistant />} />
-        <Route path="/chat" element={<Chat />} />
-      </Routes>
-    </BrowserRouter>
+    <StudyProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/upload-id" element={<UploadID />} />
+          <Route path="/course-selection" element={<CourseSelection />} />
+          <Route path="/slot-selection" element={<SlotSelection />} />
+          <Route path="/timetable" element={<Timetable />} />
+          <Route path="/lifestyle" element={<LifestyleSetup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/planner" element={<DailyPlanner />} />
+          <Route path="/deadlines" element={<Deadlines />} />
+          <Route path="/study" element={<StudyAssistant />} />
+          <Route path="/chat" element={<Chat />} />
+        </Routes>
+      </BrowserRouter>
+    </StudyProvider>
   )
 }
 
