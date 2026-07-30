@@ -55,6 +55,30 @@ export default function StudyAssistant() {
         }
       })
       .catch(() => {})
+
+    // Check if redirect query was passed from deadlines page
+    const studyQuery = sessionStorage.getItem('studyQuery')
+    if (studyQuery) {
+      setQuery(studyQuery)
+      setRecTopic(studyQuery)
+      setActiveTab('recommendations')
+      sessionStorage.removeItem('studyQuery')
+      setRecsLoading(true)
+      fetch(`${API}/recommendations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: studyQuery })
+      })
+      .then(res => res.json())
+      .then(data => {
+        setRecommendationResult(data.recommendations)
+        setRecsLoading(false)
+      })
+      .catch(() => {
+        setRecommendationResult('⚠️ Error connecting to server.')
+        setRecsLoading(false)
+      })
+    }
   }, [])
 
   // File Upload Handler
@@ -200,9 +224,7 @@ export default function StudyAssistant() {
       } else {
         setFlashcards(data.flashcards || [])
       }
-    } catch {
-      alert('Error connecting to server.')
-    } font {
+    } finally {
       setCardsLoading(false)
     }
   }

@@ -60,13 +60,27 @@ class TimetableRequest(BaseModel):
     preferences: dict
 
 class LifestyleRequest(BaseModel):
-    wake_up_time: str
-    sleep_time: str
-    study_hours: int
+    # Core schedule
+    wake_up_time: str = "07:00"
+    sleep_time: str = "23:00"
+    study_hours: int = 3
     meal_timings: List[str] = []
     gym_preference: bool = False
     club_activities: List[str] = []
     travel_time: Optional[int] = 30
+    # Personality quiz fields
+    sleep_type: Optional[str] = None           # early_bird | night_owl | snoozer
+    morning_energy: Optional[str] = None       # ready | coffee | loading
+    study_style: Optional[str] = None          # focused | pomodoro | last_minute | mood
+    study_environment: Optional[str] = None    # music | silence | rain | cafe
+    peak_productivity: Optional[str] = None    # morning | afternoon | evening | late_night
+    exercise_type: Optional[str] = None        # gym | sports | walk | none
+    meal_preference: Optional[str] = None      # three_meals | skip_breakfast
+    phone_usage_hours: Optional[Any] = 1       # 0.5 | 1 | 2 | 3+
+    relaxation_style: Optional[str] = None     # music | walk | coffee | nap | netflix
+    semester_goal: Optional[str] = None        # cgpa | internship | projects | skills | survive
+    deadline_personality: Optional[str] = None # early | on_time | one_day_before | procrastinator
+    motivation_style: Optional[str] = None     # encourage | roast | progress | achievements
 
 class DeadlineRequest(BaseModel):
     course: str
@@ -155,9 +169,10 @@ async def generate_timetable(request: TimetableRequest):
 
 @router.post("/save-lifestyle")
 async def save_lifestyle(request: LifestyleRequest):
-    """Saves the student's lifestyle preferences to session."""
-    _session["lifestyle"] = request.dict()
-    return {"message": "Lifestyle saved successfully.", "data": request.dict()}
+    """Saves the student's full lifestyle + personality quiz data to session."""
+    data = request.dict(exclude_none=False)
+    _session["lifestyle"] = data
+    return {"message": "Lifestyle saved successfully.", "data": data}
 
 
 # ═══════════════════════════════════════════════════════════
@@ -317,12 +332,22 @@ async def chat(request: ChatRequest):
     The chat router. Detects intent and responds using the right agent.
     Returns an action hint so the frontend can navigate automatically.
     """
-    session_context = {"student": _session.get("student", {})}
+    if "chat_history" not in _session:
+        _session["chat_history"] = []
+
+    history = request.history if request.history else _session["chat_history"]
+
     result = chat_agent(
         message=request.message,
-        history=request.history,
-        session_context=session_context,
+        history=history,
+        session_context=_session,
     )
+
+    # Save interaction to history
+    _session["chat_history"].append({"role": "user", "text": request.message})
+    _session["chat_history"].append({"role": "assistant", "text": result.get("response", "")})
+    _session["chat_history"] = _session["chat_history"][-20:]
+
     return result
 
 
@@ -346,3 +371,25 @@ async def save_timetable(body: dict):
     """Save the student's chosen timetable to session."""
     _session["chosen_timetable"] = body
     return {"message": "Timetable saved."}
+
+@router.delete("/deadlines/{course_name}")
+async def delete_deadline(course_name: str):
+    """Mark a deadline as completed and remove from session."""
+    if "deadlines" in _session:
+        _session["deadlines"] = [
+            d for d in _session["deadlines"]
+            if d.get("course", "").lower() != course_name.lower()
+        ]
+    
+    # Regenerate planner automatically if timetable is set
+    timetable = _session.get("chosen_timetable", {}).get("schedule", [])
+    if timetable:
+        plan = generate_daily_plan(
+            timetable=timetable,
+            lifestyle=_session.get("lifestyle", {}),
+            student=_session.get("student", {}),
+            deadlines=_session.get("deadlines", [])
+        )
+        _session["daily_plan"] = plan
+
+    return {"message": f"Deadline for {course_name} marked as completed."}
