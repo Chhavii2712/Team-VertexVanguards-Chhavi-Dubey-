@@ -93,6 +93,7 @@ class PlannerRequest(BaseModel):
     lifestyle: dict = {}
     student: dict = {}
     deadlines: List[dict] = []
+    adjustment: Optional[str] = None
 
 class StudyRequest(BaseModel):
     query: str
@@ -121,10 +122,10 @@ class QuizRequest(BaseModel):
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/scan-id")
-async def scan_id(file: UploadFile = File(...)):
+def scan_id(file: UploadFile = File(...)):
     """Upload an ID card image → returns structured student profile."""
     try:
-        image_bytes = await file.read()
+        image_bytes = file.file.read()
         raw_data = extract_id_details(image_bytes)
         student_profile = identity_agent.process_ocr_data(raw_data)
         # Store in session
@@ -150,7 +151,7 @@ async def get_curriculum(branch_code: str):
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/generate-timetable")
-async def generate_timetable(request: TimetableRequest):
+def generate_timetable(request: TimetableRequest):
     """Generates all clash-free timetables and returns them ranked."""
     valid = generate_timetables(
         selected_courses=request.selected_courses,
@@ -180,7 +181,7 @@ async def save_lifestyle(request: LifestyleRequest):
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/generate-daily-plan")
-async def generate_daily_plan_endpoint(request: PlannerRequest):
+def generate_daily_plan_endpoint(request: PlannerRequest):
     """
     Calls the Planner Agent to generate a 24-hour schedule.
     Uses session data if request fields are empty.
@@ -195,6 +196,7 @@ async def generate_daily_plan_endpoint(request: PlannerRequest):
         lifestyle=lifestyle,
         student=student,
         deadlines=deadlines,
+        adjustment=request.adjustment,
     )
     _session["daily_plan"] = plan
     return {"message": "Daily plan generated.", "plan": plan}
@@ -205,7 +207,7 @@ async def generate_daily_plan_endpoint(request: PlannerRequest):
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/deadlines")
-async def add_deadline(request: DeadlineRequest):
+def add_deadline(request: DeadlineRequest):
     """Add a deadline to the session and return updated analysis."""
     if "deadlines" not in _session:
         _session["deadlines"] = []
@@ -214,7 +216,7 @@ async def add_deadline(request: DeadlineRequest):
     return {"message": "Deadline added.", "analysis": analysis}
 
 @router.get("/deadlines")
-async def get_deadlines():
+def get_deadlines():
     """Get all deadlines with AI-powered priority analysis."""
     deadlines = _session.get("deadlines", [])
     analysis = analyze_deadlines(deadlines) if deadlines else {"raw_analysis": "No deadlines yet.", "deadlines_with_days": [], "priority_order": []}
@@ -226,7 +228,7 @@ async def get_deadlines():
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/replan")
-async def replan():
+def replan():
     """Re-run the Planner Agent with updated deadlines."""
     plan = generate_daily_plan(
         timetable=_session.get("chosen_timetable", {}).get("schedule", []),
@@ -243,9 +245,9 @@ async def replan():
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/upload-notes")
-async def upload_notes(file: UploadFile = File(...)):
+def upload_notes(file: UploadFile = File(...)):
     """Upload lecture notes (PDF/PPT/DOCX/TXT). Agent summarizes and indexes them."""
-    file_bytes = await file.read()
+    file_bytes = file.file.read()
     result = process_uploaded_notes(file_bytes, file.filename)
     if result["status"] == "success":
         _session["notes_text"] = result["notes_text"]
@@ -253,7 +255,7 @@ async def upload_notes(file: UploadFile = File(...)):
     return {"message": "Notes processed.", "summary": result["summary"], "extracted_chars": result.get("extracted_chars", 0), "filename": file.filename}
 
 @router.post("/study-assistant")
-async def study_assistant(request: StudyRequest):
+def study_assistant(request: StudyRequest):
     """Answer an academic question (general or based on uploaded notes) with simplicity level & branch personalization."""
     notes_text = _session.get("notes_text", "") if request.mode == "notes" else ""
     student_branch = _session.get("student", {}).get("branch_code", "")
@@ -267,7 +269,7 @@ async def study_assistant(request: StudyRequest):
     return {"response": response}
 
 @router.post("/study-summarize")
-async def study_summarize(request: SummarizeRequest):
+def study_summarize(request: SummarizeRequest):
     """Generate smart summary (short, detailed, bullet, or revision cheat-sheet)."""
     notes_text = _session.get("notes_text", "")
     if not notes_text:
@@ -276,7 +278,7 @@ async def study_summarize(request: SummarizeRequest):
     return {"summary": summary, "style": request.style}
 
 @router.post("/study-topics")
-async def study_topics():
+def study_topics():
     """Extract top 5-10 exam topics (CAT / FAT preparation)."""
     notes_text = _session.get("notes_text", "")
     if not notes_text:
@@ -285,7 +287,7 @@ async def study_topics():
     return {"topics": topics}
 
 @router.post("/generate-quiz")
-async def generate_quiz_endpoint(request: QuizRequest):
+def generate_quiz_endpoint(request: QuizRequest):
     """Generate an MCQ quiz from uploaded notes."""
     notes_text = _session.get("notes_text", "")
     if not notes_text:
@@ -294,7 +296,7 @@ async def generate_quiz_endpoint(request: QuizRequest):
     return {"quiz": quiz}
 
 @router.post("/generate-flashcards")
-async def generate_flashcards_endpoint(request: FlashcardRequest):
+def generate_flashcards_endpoint(request: FlashcardRequest):
     """Generate interactive revision flashcards."""
     notes_text = _session.get("notes_text", "")
     if not notes_text:
@@ -303,7 +305,7 @@ async def generate_flashcards_endpoint(request: FlashcardRequest):
     return {"flashcards": flashcards}
 
 @router.post("/recommendations")
-async def recommendations_endpoint(request: TopicRequest):
+def recommendations_endpoint(request: TopicRequest):
     """Generate YouTube, documentation, and practice recommendations for a topic."""
     topic = request.topic or _session.get("notes_filename", "Current Subject")
     recommendations = generate_resource_recommendations(topic)
@@ -327,7 +329,7 @@ async def study_context():
 # ═══════════════════════════════════════════════════════════
 
 @router.post("/chat")
-async def chat(request: ChatRequest):
+def chat(request: ChatRequest):
     """
     The chat router. Detects intent and responds using the right agent.
     Returns an action hint so the frontend can navigate automatically.
