@@ -50,7 +50,18 @@ export default function DailyPlanner() {
     setLoading(true)
     setError(null)
     try {
-      const body = adjustment ? { adjustment } : {}
+      const timetable = JSON.parse(sessionStorage.getItem('chosen_timetable') || '{}').schedule || []
+      const lifestyle = JSON.parse(sessionStorage.getItem('lifestyle') || '{}')
+      const student = JSON.parse(sessionStorage.getItem('student') || '{}')
+      const deadlines = JSON.parse(sessionStorage.getItem('deadlines') || '[]')
+      
+      const body = {
+        timetable,
+        lifestyle,
+        student,
+        deadlines,
+        ...(adjustment ? { adjustment } : {})
+      }
       const res = await fetch(`${API}/generate-daily-plan`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

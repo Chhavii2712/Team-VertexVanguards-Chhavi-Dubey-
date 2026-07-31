@@ -189,9 +189,25 @@ def _parse_schedule(raw: str) -> list:
         line = line.strip()
         if "|" not in line:
             continue
+            
+        # Ignore markdown table separator lines
+        if re.match(r'^\|?[\s\-:]+\|', line):
+            continue
+            
+        # Clean up markdown table syntax
+        if line.startswith('|'):
+            line = line[1:]
+        if line.endswith('|'):
+            line = line[:-1]
+            
         # Remove leading numbers, dashes, asterisks
         line = re.sub(r'^[\d\.\-\*\•]+\s*', '', line).strip()
         parts = [p.strip() for p in line.split("|")]
+        
+        # Check if this looks like a header row
+        if parts[0].lower() in ["time", "hh:mm"]:
+            continue
+            
         if len(parts) >= 3:
             blocks.append({
                 "time": parts[0],
