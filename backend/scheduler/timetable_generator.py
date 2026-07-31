@@ -47,6 +47,9 @@ def generate_timetables(selected_courses: list[str], selected_options: dict, pre
                 slot['course'] = course_code
                 tentative_schedule.append(slot)
                 
+        if any(slot.get('day') == 'Unknown' for slot in tentative_schedule):
+            continue  # skip invalid mapping — don't count as a valid timetable
+            
         if not check_for_clashes(tentative_schedule):
             valid_timetables.append({
                 "schedule": tentative_schedule,

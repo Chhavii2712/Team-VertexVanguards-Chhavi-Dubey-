@@ -26,6 +26,7 @@ def map_slots_to_times(slots: list[str]) -> list[dict]:
             mapped.append(mapped_slot)
         else:
             # Handle unknown slots by mapping them generically or raising an error
+            print(f"⚠️ WARNING: No timing mapping found for slot code '{slot}' — check slot_timings.json")
             mapped.append({
                 'slot_code': slot,
                 'day': 'Unknown',
