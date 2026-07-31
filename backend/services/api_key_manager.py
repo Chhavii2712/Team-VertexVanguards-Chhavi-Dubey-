@@ -129,7 +129,7 @@ class _GeminiKeyManager:
         clients = []
         for key in raw_keys:
             genai.configure(api_key=key)
-            clients.append(genai.GenerativeModel("gemini-1.5-flash-latest"))
+            clients.append(genai.GenerativeModel("gemini-3.5-flash"))
 
         with self._lock:
             self._keys = raw_keys
